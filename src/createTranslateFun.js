@@ -30,12 +30,7 @@ module.exports = function (opts = {}) {
         ? registry[opts.fallbackLanguageTag]
         : {};
 
-    const translations = registry[this.page.lang];
-
-    let translations_ =
-      (languageTag)
-        ? registry[languageTag]
-        : translations;
+    const translations = registry[languageTag];
 
     let value;
 
@@ -44,7 +39,7 @@ module.exports = function (opts = {}) {
       const firstKey = splitKey.shift();
 
       const translationsObject =
-        (translations_[firstKey] && translations_)
+        (translations[firstKey] && translations)
           ?? (fallbackTranslations[firstKey] && fallbackTranslations)
           ?? (() => { throw new Error(`translation for "${firstKey}" not found`) })();
 
@@ -58,7 +53,7 @@ module.exports = function (opts = {}) {
       value = o;
     } else {
       value =
-        translations_[key]
+        translations[key]
         ?? fallbackTranslations[key]
         ?? (() => { throw new Error(`translation for "${key}" not found`) })();
     }
@@ -86,7 +81,7 @@ module.exports = function (opts = {}) {
 
       const count = cardinal || ordinal;
 
-      const pluralRule = new Intl.PluralRules(this.page.lang).select(count);
+      const pluralRule = new Intl.PluralRules(languageTag).select(count);
 
       value = pluralTranslations[pluralRule];
       if (!value) {
