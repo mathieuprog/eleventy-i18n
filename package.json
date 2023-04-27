@@ -1,6 +1,6 @@
 {
   "name": "eleventy-i18n",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "i18n for Eleventy with dynamic parameters and pluralization support",
   "funding": "https://github.com/mathieuprog/eleventy-i18n?sponsor=1",
   "main": ".eleventy.js",
