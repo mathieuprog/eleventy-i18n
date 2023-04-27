@@ -14,7 +14,7 @@ module.exports = (eleventyConfig, options) => {
 
   const translate = createTranslateFun(options);
 
-  eleventyConfig.addFilter("translate", (key, params = {}, languageTag) => {
+  eleventyConfig.addFilter('translate', function (key, params = {}, languageTag) {
     return translate(key, params, languageTag ?? this.page.lang);
   });
 };
