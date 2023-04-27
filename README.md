@@ -1,73 +1,53 @@
-## Eleventy Plugin Template
+# i18n for Eleventy
 
-> A starter environment for creating plugins for Eleventy (11ty).
+`eleventy-i18n` offers a translation dictionary, dynamic parameters, and pluralization support to create multilingual websites with ease.
 
-Fork this repo, or select "Use this template" to get started.
-
-### Using this template
-
-This template is setup to run a single page 11ty site for testing your plugin functionality. The build files are excluded from the final plugin package via `.npmignore`.
-
-Your plugin functionality should live in/be exported from `.eleventy.js`. You will find a sample of creating a filter plugin in this template, including setting up a default config and merging user options.
-
-**Be sure to update the `package.json` with your own details!**
-
-### Testing your plugin
-
-You can test your functionality within this project's local 11ty build by running `npm start`, but you'll also want to test it _as a plugin_.
-
-From another local 11ty project, you can set the `require()` path relatively to your plugin's project directory, and then use it just as you would for a plugin coming from a package.
-
-Example, assuming you place all your repositories within the same parent directory:
+First, add your translation files into your project. For example:
 
 ```js
-const pluginName = require("../plugin-directory");
+// translations/en.json
+{
+  "hello": "Hello!"
+}
 
-module.exports = (eleventyConfig) => {
-  eleventyConfig.addPlugin(pluginName, { optionName: 'if needed' );
-};
+// translations/fr.json
+{
+  "hello": "Bonjour !"
+}
 ```
 
-Then, run the project to test the plugin's functionality.
-
-Note that making changes in the plugin source will likely require restarting the test project.
-
-### Resources for creating an 11ty plugin
-
-- Bryan Robinson's ["Create a Plugin with 11ty"](https://www.youtube.com/watch?v=aO-NFFKjnnE) demonstration on "Learn With Jason"
-
----
-
-**The following is a boilerplate for your final plugin README**.
-
-## Usage
-
-Describe how to install your plugin, such as:
-
-```bash
-npm install @scope/plugin-name
-```
-
-Then, include it in your `.eleventy.js` config file:
+Then, add the built-in Eleventy i18n plugin and this plugin in the `.eleventy.js` file:
 
 ```js
-const pluginName = require("@scope/plugin-name");
+const { EleventyI18nPlugin } = require("@11ty/eleventy");
+const i18nPlugin = require("eleventy-i18n");
 
-module.exports = (eleventyConfig) => {
-  eleventyConfig.addPlugin(pluginName);
+module.exports = function (eleventyConfig) {
+  // code...
+
+  eleventyConfig.addPlugin(EleventyI18nPlugin, {
+    defaultLanguage: "en",
+    filters: {
+      url: "locale_url",
+
+      // find the other localized content for a specific input file
+      links: "locale_links",
+    },
+
+    // When to throw errors for missing localized content files
+    errorMode: "strict", // throw an error if content is missing at /en/slug
+    // errorMode: "allow-fallback", // only throw an error when the content is missing at both /en/slug and /slug
+    // errorMode: "never", // don’t throw errors for missing content
+  });
+
+  eleventyConfig.addPlugin(i18nPlugin, {
+    translations: {
+      en: enTranslations,
+      fr: frTranslations
+    }
+  });
+
+  // code...
 };
+
 ```
-
-## Config Options
-
-| Option      | Type | Default       |
-| ----------- | ---- | ------------- |
-| option name | type | default value |
-
-## Config Examples
-
-Show examples of likely configurations.
-
-## Credits
-
-Add credits if needed.

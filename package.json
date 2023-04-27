@@ -1,33 +1,33 @@
 {
-  "name": "@scope/plugin-name",
-  "version": "1.0.0",
-  "description": "Description of plugin",
-  "homepage": "",
+  "name": "eleventy-i18n",
+  "version": "0.1.0",
+  "description": "i18n for Eleventy with dynamic parameters and pluralization support",
+  "funding": "https://github.com/mathieuprog/eleventy-i18n?sponsor=1",
   "main": ".eleventy.js",
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
     "bump": "npm --no-git-tag-version version"
   },
+  "homepage": "https://github.com/mathieuprog/eleventy-i18n#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/username/repo-name.git"
+    "url": "git+https://github.com/mathieuprog/eleventy-i18n.git"
   },
   "keywords": [
     "11ty",
     "11ty-plugin",
     "eleventy",
-    "eleventy-plugin"
+    "eleventy-plugin",
+    "i18n",
+    "multilingual"
   ],
-  "author": {
-    "name": "username",
-    "url": "https://website.com"
-  },
-  "license": "ISC",
+  "author": "Mathieu Decaffmeyer",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/username/repo-name/issues"
+    "url": "https://github.com/mathieuprog/eleventy-i18n/issues"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0"
+    "@11ty/eleventy": "^2.0.1"
   }
 }
