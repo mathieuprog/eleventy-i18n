@@ -13,16 +13,6 @@ const defaultOptions = {
   translations: {}
 };
 
-function createTranslateFun(opts) {
-  if (isEmptyObjectLiteral(opts.translations)) {
-    throw new Error('no translations provided');
-  }
-
-  for (const [languageTag, translations] of Object.entries(opts.translations)) {
-    registry.addTranslations(languageTag, translations);
-  }
-}
-
 module.exports = function (opts = {}) {
   opts = Object.assign({}, defaultOptions, opts);
 
