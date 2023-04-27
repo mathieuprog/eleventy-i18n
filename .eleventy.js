@@ -12,9 +12,9 @@ module.exports = (eleventyConfig, options) => {
     ...options,
   };
 
-  const translateFun = createTranslateFun(options);
+  const translate = createTranslateFun(options);
 
   eleventyConfig.addFilter("translate", (key, params = {}, languageTag) => {
-    return translateFun(key, params, languageTag ?? this.page.lang);
+    return translate(key, params, languageTag ?? this.page.lang);
   });
 };
