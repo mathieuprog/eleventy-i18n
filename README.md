@@ -11,6 +11,7 @@
   * [Pluralization](#pluralization)
   * [Overriding the current locale](#overriding-the-current-locale)
   * [Additional configuration options](#additional-configuration-options)
+* [Organizing files & directories](#organizing-files--directories)
 
 ## Scope
 
@@ -20,11 +21,11 @@ This library offers the following features:
 * Pluralization support
 * Fallback translation support
 
-For further information on serving pages in different languages and guidance on structuring folders and pages, please consult the official documentation:
+For further information on serving pages in different languages and guidance on structuring folders and pages, consult the official documentation:
 * https://www.11ty.dev/docs/i18n/
 * https://www.11ty.dev/docs/plugins/i18n/
 
-In essence, this library provides a translation dictionary but does not dictate any specific approaches concerning project structure, language folders, or multilingual URLs.
+In essence, this library provides a translation dictionary but does not dictate any specific approaches concerning project structure, language folders, or multilingual URLs. However, an approach to organizing files and directories is suggested in the [Organizing files & directories](#organizing-files--directories) section of the Readme.
 
 ## Installation
 
@@ -190,4 +191,134 @@ Here's an example illustrating the use of nested translations, made possible by 
 
 ```html
 <p>{{ 'welcome.hello' | t }}</p>
+```
+
+## Organizing files & directories
+
+The following outlines a suggested approach for organizing folders and files.
+
+1. Add the layout files
+
+To prevent duplicating markup for each language, treat every page as a layout:
+
+```
+├─ src
+    └─ _includes
+      └─ content
+        ├─ about.njk
+        └─ index.njk
+      └─ layout
+        └─ base.njk
+```
+
+`src/_includes/layout/base.njk`:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ 'head_title' | t }}</title>
+  <link rel="alternate" hreflang="{{page.lang}}" href="{{ site.url }}{{ page.url }}">
+  {% for link in page.url | locale_links %}<link rel="alternate" hreflang="{{ link.lang }}" href="{{ site.url }}{{ link.url }}">{% endfor %}
+  <meta name="description" content="{{ 'head_description' | t }}">
+  <link rel="stylesheet" href="{{ '/css/style.css' | url | safe }}">
+</head>
+<body>
+  <div class="page">
+    {{ content | safe }}
+  </div>
+</body>
+</html>
+```
+
+`src/_includes/content/index.njk`:
+
+```html
+---
+layout: "layout/base.njk"
+---
+
+<main>
+  <div class="view homepage">
+    <h1 class="homepage__title">{{ 'landing_title' | t }}</h1>
+    <h2 class="homepage__subtitle">{{ 'landing_subtitle' | t }}</h2>
+    <a class="homepage__cta" href="#">{{ 'landing_cta' | t }}</a>
+  </div>
+</main>
+```
+
+2. Create directories corresponding to each language code (e.g. 'en', 'fr', 'de', etc.):
+
+```
+├─ src
+    ├─ en
+    └─ fr
+```
+
+3. Include the pages within these directories
+
+```
+├─ src
+    └─ en
+      ├─ about.njk
+      ├─ index.njk
+    └─ fr
+      ├─ about.njk
+      ├─ index.njk
+```
+
+`src/en/about.njk`:
+
+```
+---
+permalink: /about
+layout: "content/index.njk"
+---
+```
+
+`src/fr/about.njk`:
+
+```
+---
+permalink: /fr/a-propos
+layout: "content/index.njk"
+---
+```
+
+4. Add Directory Data Files:
+
+```
+├─ src
+    └─ en
+      ├─ about.njk
+      ├─ index.njk
+      └─ en.json
+    └─ fr
+      ├─ about.njk
+      ├─ index.njk
+      └─ fr.json
+```
+
+`src/fr/fr.json`:
+
+```
+{
+  "dir": "ltr"
+}
+```
+
+`src/en/en.json`:
+
+```
+{
+  "dir": "ltr"
+}
+```
+
+5. Add `<html>` attributes:
+
+```html
+<html lang="{{ page.lang }}" dir="{{ dir }}">
 ```
