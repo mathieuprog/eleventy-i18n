@@ -25,10 +25,7 @@ module.exports = function (opts = {}) {
   }
 
   return (key, params = {}, languageTag) => {
-    const fallbackTranslations =
-      (opts.fallbackLanguageTag)
-        ? registry[opts.fallbackLanguageTag]
-        : {};
+    const fallbackTranslations = findFallbackLanguageTranslations(languageTag, opts);
 
     const translations = registry[languageTag];
 
@@ -130,3 +127,13 @@ module.exports = function (opts = {}) {
     return value;
   };
 };
+
+function findFallbackLanguageTranslations(languageTag, opts) {
+  if (!languageTag.includes('-')) {
+    return registry[opts.fallbackLanguageTag];
+  }
+
+  const fallbackLanguageTag = languageTag.split('-')[0];
+
+  return registry[fallbackLanguageTag] ?? registry[opts.fallbackLanguageTag] ?? {};
+}
