@@ -325,7 +325,7 @@ In the example mentioned above, 'en' is set as the default language, and the URL
 <html lang="{{ page.lang }}" dir="{{ dir }}">
 ```
 
-6. If you'd like to automatically redirect users to their preferred language version of your website, you can use the following approach. In this example, 'en' serves as the default language, and the homepage for the default language includes a script that redirects users to another supported language if it's their preferred choice.
+6. If you'd like to automatically redirect users to their preferred language version of your website, you can use the following approach. In this example, 'en' serves as the default language, and the homepage for the default language includes a script that redirects users to another supported language if it's their preferred language as configured in their browser.
 
 `src/en/index.njk`:
 
