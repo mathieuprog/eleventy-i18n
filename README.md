@@ -287,6 +287,8 @@ layout: "content/index.njk"
 ---
 ```
 
+In the example mentioned above, 'en' is set as the default language, and the URLs for the English version don't include the language code '/en' in the URL structure (see permalink).
+
 4. Add Directory Data Files:
 
 ```
@@ -321,4 +323,51 @@ layout: "content/index.njk"
 
 ```html
 <html lang="{{ page.lang }}" dir="{{ dir }}">
+```
+
+6. If you'd like to automatically redirect users to their preferred language version of your website, you can use the following approach. In this example, 'en' serves as the default language, and the homepage for the default language includes a script that redirects users to another supported language if it's their preferred choice.
+
+`src/en/index.njk`:
+
+```html
+---
+permalink: /
+layout: "content/index.njk"
+head_scripts: >
+  <script>
+    const supportedLanguageTags = ['en', 'fr'];
+    const defaultLanguageTag = 'en';
+
+    function detectPreferredLanguageTag() {
+      for (let preferredLanguageTag of navigator.languages) {
+        preferredLanguageTag = preferredLanguageTag.toLowerCase();
+
+        if (supportedLanguageTags.includes(preferredLanguageTag)) {
+          return preferredLanguageTag;
+        }
+
+        const languageCode = preferredLanguageTag.split('-')[0];
+        if (supportedLanguageTags.includes(languageCode)) {
+          return languageCode;
+        }
+      }
+      return null;
+    }
+
+    function redirectToLanguage() {
+      const languageSwitched = sessionStorage.getItem('languageSwitched');
+      if (languageSwitched) {
+        return;
+      }
+
+      const preferredLanguageTag = detectPreferredLanguageTag();
+      if (preferredLanguageTag && window.location.pathname === '/' && preferredLanguageTag !== defaultLanguageTag) {
+        sessionStorage.setItem('languageSwitched', 'true');
+        window.location.href = `/${preferredLanguageTag}`;
+      }
+    }
+
+    redirectToLanguage();
+  </script>
+---
 ```
