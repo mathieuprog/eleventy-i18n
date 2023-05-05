@@ -88,7 +88,7 @@ You can then make use of the `t` filter to translate the key into the desired la
 
 ### Translation parameters
 
-Your translations may also include parameter, as illustrated in the following example:
+Your translations may also include parameters, as illustrated in the following example:
 
 ```js
 // translations/en.json
@@ -156,7 +156,7 @@ Either a cardinal or ordinal parameter must be present when translating, for the
 
 ### Overriding the current locale
 
-You have the option to enforce translation in a specific language, rather than relying on the current language setting:
+You have the option to enforce translation in a specific language, rather than relying on the current language:
 
 ```html
 <p>{{ 'hello' | t({}, 'fr') }}</p>
@@ -257,7 +257,7 @@ layout: "layout/base.njk"
     └─ fr
 ```
 
-3. Include the pages within these directories
+3. Include the pages within these directories:
 
 ```
 ├─ src
@@ -289,7 +289,7 @@ layout: "content/index.njk"
 
 In the example mentioned above, 'en' is set as the default language, and the URLs for the English version don't include the language code '/en' in the URL structure (see permalink).
 
-4. Add Directory Data Files:
+4. Add Directory Data Files (the JSON files as shown in the directory structure below):
 
 ```
 ├─ src
